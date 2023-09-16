@@ -17,6 +17,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="DataAccess\" />
     <Folder Include="DTOs\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
