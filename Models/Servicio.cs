@@ -1,28 +1,36 @@
-﻿namespace Integrador.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Integrador.Models
 {
+    [Table("servicio")]
     public class Servicio
     {
-        public int CodServicio { get; set; }
-        public string Descr { get; set; }
-        public bool Estado { get; set; }
-        public decimal ValorHora { get; set; }
+        [Key]
+        [Column(TypeName = "INT")]
+        public int IdServicio { get; set; }
 
-        public Servicio(int codServicio, string descr, bool estado, decimal valorHora)
-        {
-            CodServicio = codServicio;
-            Descr = descr;
-            Estado = estado;
-            ValorHora = valorHora;
-        }
+        [Required]
+        [Column(TypeName = "VARCHAR(100)")]
+        public string Descripcion { get; set; }
+
+        [Required]
+        [Column(TypeName = "DOBLE")]
+        public double ValorHora { get; set; }
+
+        [Required]
+        [Column(TypeName = "BIT")]
+        public bool Activo { get; set; }
 
         public void ActivarServicio()
         {
-            Estado = true;
+            Activo = true;
         }
 
         public void DesactivarServicio()
         {
-            Estado = false;
+            Activo = false;
         }
+   
     }
 }

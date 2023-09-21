@@ -1,36 +1,37 @@
-﻿namespace Integrador.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Integrador.Models
 {
+    [Table("proyecto")]
     public class Proyecto
     {
-        
-    public int CodProyecto { get; set; }
+        [Key]
+        [Column(TypeName = "INT")]
+        public int IdProyecto { get; set; }
+
+        [Required]
+        [Column(TypeName = "VARCHAR(100)")]
         public string Nombre { get; set; }
-        public string Dirección { get; set; }
-        public int Estado { get; set; }
+
+        [Required]
+        [Column(TypeName = "VARCHAR(100)")]
+        public string Direccion { get; set; }
+
+        [Required]
+        [Column(TypeName = "INT")]
+        public byte Estado { get; set; }
+
+        [Required]
+        [Column(TypeName = "BIT")]
+        public bool Activo { get; set; }
 
         // diccionario para saber el estado
         private static readonly Dictionary<int, string> Estados = new Dictionary<int, string>
-    {
-        { 1, "Pendiente" },
-        { 2, "Confirmado" },
-        { 3, "Terminado" },
-    };
-
-        public Proyecto(int codProyecto, string nombre, string dirección, int estado)
         {
-            CodProyecto = codProyecto;
-            Nombre = nombre;
-            Dirección = dirección;
-            Estado = estado;
-        }
-
-        public string ObtenerEstadoProyecto()
-        {
-            if (Estados.TryGetValue(Estado, out string estadoStr))
-            {
-                return estadoStr;
-            }
-            return "Desconocido";
-        }
+            { 1, "Pendiente" },
+            { 2, "Confirmado" },
+            { 3, "Terminado" },
+        };
     }
 }
