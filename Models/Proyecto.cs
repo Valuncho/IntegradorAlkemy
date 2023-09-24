@@ -20,7 +20,7 @@ namespace Integrador.Models
 
         [Required]
         [Column(TypeName = "INT")]
-        public byte Estado { get; set; }
+        public int Estado { get; set; }
 
         [Required]
         [Column(TypeName = "BIT")]
