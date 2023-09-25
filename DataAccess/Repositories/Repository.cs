@@ -1,5 +1,8 @@
 ﻿using Integrador.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Linq;
 using TechOil.DataAccess.Repositories.Interfaces;
 
 namespace TechOil.DataAccess.Repositories
@@ -33,5 +36,7 @@ namespace TechOil.DataAccess.Repositories
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

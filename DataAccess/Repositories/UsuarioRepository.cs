@@ -38,5 +38,28 @@ namespace TechOil.DataAccess.Repositories
 
             return true;
         }
+        public override async Task<bool> Insert(Usuario nuevoUsuario)
+        {
+            try
+            {
+                var usuarioExistente = await _context.Usuarios.FirstOrDefaultAsync(x => x.Nombre == nuevoUsuario.Nombre || x.Dni == nuevoUsuario.Dni);
+
+                if (usuarioExistente != null)
+                {
+                    return false;
+                }
+
+                _context.Usuarios.Add(nuevoUsuario);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        
+
     }
 }
