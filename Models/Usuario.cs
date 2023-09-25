@@ -19,7 +19,7 @@ namespace Integrador.Models
         [Required]
         [Column(TypeName = "VARCHAR(9)")]
         public int Dni { get; set; }
-
+        
         [Required]
         [Column(TypeName = "INT")]
         public int Tipo { get; set; }

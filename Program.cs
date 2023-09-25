@@ -2,6 +2,7 @@ using Integrador.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace Integrador
 {
     public class Program

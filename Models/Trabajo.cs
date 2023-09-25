@@ -19,11 +19,11 @@ namespace Integrador.Models
         public int CantHoras { get; set; }
 
         [Required]
-        [Column(TypeName = "DOUBLE")]
+        [Column(TypeName = "DECIMAL")]
         public double ValorHora { get; set; }
 
         [Required]
-        [Column(TypeName = "DOUBLE")]
+        [Column(TypeName = "DECIMAL")]
         public double Costo { get; set; }
 
         [Required]

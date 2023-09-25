@@ -15,7 +15,7 @@ namespace Integrador.Models
         public string Descripcion { get; set; }
 
         [Required]
-        [Column(TypeName = "DOBLE")]
+        [Column(TypeName = "DECIMAL")]
         public double ValorHora { get; set; }
 
         [Required]
