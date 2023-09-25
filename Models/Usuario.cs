@@ -31,5 +31,6 @@ namespace Integrador.Models
         [Required]
         [Column(TypeName = "BIT")]
         public bool Activo { get; set; }
-    }  
+    }
+    public enum TipoUsuario { Admin = 1, Usuario = 2 }
 }

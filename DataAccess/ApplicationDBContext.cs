@@ -1,11 +1,12 @@
-﻿using Integrador.Models;
+﻿using Integrador.DataAccess.DatabaseSeeding;
+using Integrador.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Integrador.DataAccess
 {
-    public class ApplicationDBContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
 
         public DbSet<Usuario> Usuarios { get; set; }
@@ -15,8 +16,18 @@ namespace Integrador.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+            var seeders = new List<IEntitySeeder>
+            {
+                new UsuarioSeeder(),
+            };
+
+
+            foreach (var seeder in seeders)
+            {
+                seeder.SeedDatabase(modelBuilder);
+            }
         }
+        
 
     }
 }
