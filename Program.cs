@@ -1,3 +1,8 @@
+using Integrador.DataAccess;
+using Microsoft.EntityFrameworkCore;
+
+
+
 namespace Integrador
 {
     public class Program
@@ -13,6 +18,14 @@ namespace Integrador
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer("name=DefaultConnection");
+            });
+
+            
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
