@@ -18,9 +18,10 @@ namespace Integrador
             builder.Services.AddSwaggerGen();
 
 
-            builder.Services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection")
-            );
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer("name=DefaultConnection");
+            });
 
             
             
