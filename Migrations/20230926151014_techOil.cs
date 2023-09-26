@@ -65,6 +65,7 @@ namespace TechOil.Migrations
                     IdUsuario = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "VARCHAR(100)", nullable: false),
+                    Email = table.Column<string>(type: "VARCHAR(100)", nullable: false),
                     Dni = table.Column<string>(type: "VARCHAR(9)", nullable: false),
                     Tipo = table.Column<int>(type: "INT", nullable: false),
                     Contrasenia = table.Column<string>(type: "VARCHAR(100)", nullable: false),
@@ -77,13 +78,13 @@ namespace TechOil.Migrations
 
             migrationBuilder.InsertData(
                 table: "usuario",
-                columns: new[] { "IdUsuario", "Activo", "Contrasenia", "Dni", "Nombre", "Tipo" },
-                values: new object[] { 1, true, "12345", "42323443", "Admin", 1 });
+                columns: new[] { "IdUsuario", "Activo", "Contrasenia", "Dni", "Email", "Nombre", "Tipo" },
+                values: new object[] { 1, true, "644219b532c740b851ae61412ecb2576cfb9d6a98a5fdba68cbde5f9a9661142", "42323443", "admin123@gmail.com", "Admin", 1 });
 
             migrationBuilder.InsertData(
                 table: "usuario",
-                columns: new[] { "IdUsuario", "Activo", "Contrasenia", "Dni", "Nombre", "Tipo" },
-                values: new object[] { 2, true, "1234", "141324324", "Prueba Usuario", 2 });
+                columns: new[] { "IdUsuario", "Activo", "Contrasenia", "Dni", "Email", "Nombre", "Tipo" },
+                values: new object[] { 2, true, "cf1dbe457df8a129c3c764035499d6730341c127ff4d545ac79f75644a70d7be", "141324324", "pruebadeusuario@gmail.com", "Prueba Usuario", 2 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

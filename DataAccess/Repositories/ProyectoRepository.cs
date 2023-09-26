@@ -58,5 +58,8 @@ namespace TechOil.DataAccess.Repositories
                 return false;
             }
         }
+
+        public async Task<List<Proyecto>> GetAllStateProjects(int estado) => await _context.Set<Proyecto>().Where(x => x.Estado == estado).ToListAsync();
+
     }
 }

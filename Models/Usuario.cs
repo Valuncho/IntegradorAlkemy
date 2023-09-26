@@ -17,6 +17,10 @@ namespace Integrador.Models
         public string Nombre { get; set; }
 
         [Required]
+        [Column(TypeName = "VARCHAR(100)")]
+        public string Email { get; set;}
+
+        [Required]
         [Column(TypeName = "VARCHAR(9)")]
         public int Dni { get; set; }
         
