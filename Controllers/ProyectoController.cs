@@ -2,54 +2,51 @@
 using Integrador.DTOs;
 using Integrador.Models;
 using Integrador.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace TechOil.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class ProyectoController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UsuarioController(IMapper mapper, IUnitOfWork unitOfWork)
+        public ProyectoController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        [HttpGet("{id}", Name = "GetUserById")]
+        [HttpGet("{id}", Name = "GetProjectId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UsuarioDTO>> GetUser(int id)
+        public async Task<ActionResult<ProyectoDTO>> GetProyecto(int id)
         {
             if (id == 0)
             {
                 return BadRequest();
             }
 
-            var usuario = await _unitOfWork.UsuarioRepository.GetById(u => u.IdUsuario == id);
-            if (usuario != null)
+            var proyecto = await _unitOfWork.ProyectoRepository.GetById(p => p.IdProyecto == id);
+            if (proyecto != null)
             {
-                return Ok(_mapper.Map<UsuarioDTO>(usuario));
+                return Ok(_mapper.Map<ProyectoDTO>(proyecto));
             }
 
             return NotFound();
         }
 
-
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<UsuarioDTO>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<ProyectoDTO>>> GetAllProyectos()
         {
-            IEnumerable<Usuario> usuariosList = await _unitOfWork.UsuarioRepository.GetAll();
+            IEnumerable<Proyecto> proyectosList = await _unitOfWork.ProyectoRepository.GetAll();
 
-            return Ok(_mapper.Map<IEnumerable<UsuarioDTO>>(usuariosList));
+            return Ok(_mapper.Map<IEnumerable<ProyectoDTO>>(proyectosList));
         }
 
 
@@ -57,79 +54,81 @@ namespace TechOil.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UsuarioDTO>> PostUser([FromBody] UsuarioDTO usuarioDto)
+        public async Task<ActionResult<ProyectoDTO>> PostProyecto([FromBody] ProyectoDTO proyectoDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (usuarioDto == null)
+            if (proyectoDto == null)
             {
-                return BadRequest(usuarioDto);
+                return BadRequest(proyectoDto);
             }
 
-            Usuario usuarioModel = _mapper.Map<Usuario>(usuarioDto);
-            await _unitOfWork.UsuarioRepository.Insert(usuarioModel);
+            Proyecto proyectoModel = _mapper.Map<Proyecto>(proyectoDto);
+            await _unitOfWork.ProyectoRepository.Insert(proyectoModel);
 
-            return CreatedAtRoute("GetUserById", new { id = usuarioDto.IdUsuario }, usuarioDto);
+            return CreatedAtRoute("GetProyectoById", new { id = proyectoDto.IdProyecto }, proyectoDto);
         }*/
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UsuarioDTO>> PostUser([FromBody] UsuarioDTO usuarioDto)
+        public async Task<ActionResult<ProyectoDTO>> PostProyecto([FromBody] ProyectoDTO proyectoDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (usuarioDto == null)
+            if (proyectoDto == null)
             {
-                return BadRequest(usuarioDto);
+                return BadRequest(proyectoDto);
             }
 
-            Usuario usuarioModel = _mapper.Map<Usuario>(usuarioDto);
-            await _unitOfWork.UsuarioRepository.Insert(usuarioModel);
+            Proyecto proyectoModel = _mapper.Map<Proyecto>(proyectoDto);
+            await _unitOfWork.ProyectoRepository.Insert(proyectoModel);
 
             // Construye manualmente la respuesta HTTP 201 (Created)
-            var locationUri = new Uri($"{Request.Scheme}://{Request.Host.ToUriComponent()}/api/usuarios/{usuarioModel.IdUsuario}");
-            return Created(locationUri, usuarioDto);
+            var locationUri = new Uri($"{Request.Scheme}://{Request.Host.ToUriComponent()}/api/proyectos/{proyectoModel.IdProyecto}");
+            return Created(locationUri, proyectoDto);
         }
 
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutUser(int id, [FromBody] UsuarioDTO usuarioDto)
+        public async Task<IActionResult> PutProyecto(int id, [FromBody] ProyectoDTO proyectoDto)
         {
-            if (usuarioDto == null || id != usuarioDto.IdUsuario)
+            if (proyectoDto == null || id != proyectoDto.IdProyecto)
             {
                 return BadRequest();
             }
 
-            Usuario usuarioModel = _mapper.Map<Usuario>(usuarioDto);
-            await _unitOfWork.UsuarioRepository.Update(usuarioModel);
+            Proyecto proyectoModel = _mapper.Map<Proyecto>(proyectoDto);
+            await _unitOfWork.ProyectoRepository.Update(proyectoModel);
 
             return NoContent();
         }
 
-        
+
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteUsuario(int IdUsuario)
+        public async Task<IActionResult> DeleteProyecto(int IdProyecto)
         {
-            if (IdUsuario == 0)
+            if (IdProyecto == 0)
             {
                 return BadRequest();
-            } else
-                {
-                    await _unitOfWork.UsuarioRepository.Delete(IdUsuario);
-                    return NoContent();
-                }
+            }
+            else
+            {
+                await _unitOfWork.ProyectoRepository.Delete(IdProyecto);
+                return NoContent();
+            }
         }
     }
 }

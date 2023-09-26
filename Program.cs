@@ -1,4 +1,5 @@
 using Integrador.DataAccess;
+using Integrador.Services;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -19,13 +20,16 @@ namespace Integrador
             builder.Services.AddSwaggerGen();
 
 
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer("name=DefaultConnection");
             });
 
-            
-            
+            builder.Services.AddAutoMapper(typeof(Mapping));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWorkService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
