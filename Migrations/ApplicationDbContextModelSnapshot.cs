@@ -122,6 +122,10 @@ namespace TechOil.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(9)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("VARCHAR(100)");
@@ -138,8 +142,9 @@ namespace TechOil.Migrations
                         {
                             IdUsuario = 1,
                             Activo = true,
-                            Contrasenia = "12345",
+                            Contrasenia = "644219b532c740b851ae61412ecb2576cfb9d6a98a5fdba68cbde5f9a9661142",
                             Dni = "42323443",
+                            Email = "admin123@gmail.com",
                             Nombre = "Admin",
                             Tipo = 1
                         },
@@ -147,8 +152,9 @@ namespace TechOil.Migrations
                         {
                             IdUsuario = 2,
                             Activo = true,
-                            Contrasenia = "1234",
+                            Contrasenia = "cf1dbe457df8a129c3c764035499d6730341c127ff4d545ac79f75644a70d7be",
                             Dni = "141324324",
+                            Email = "pruebadeusuario@gmail.com",
                             Nombre = "Prueba Usuario",
                             Tipo = 2
                         });

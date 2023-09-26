@@ -3,6 +3,7 @@ using Integrador.DTOs;
 using Integrador.Models;
 using Integrador.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace TechOil.Controllers
 {
@@ -38,6 +39,23 @@ namespace TechOil.Controllers
 
             return NotFound();
         }
+
+        [HttpGet("GetProjectsByState/{state}")]
+        public async Task<ActionResult> GetProjectsByState([FromRoute] int state, int? itemsPerPage)
+        {
+            try
+            {
+                var projectsStateList = await _unitOfWork.ProyectoRepository.GetAllStateProjects(state);
+                var url = new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}").ToString();
+                return Created(url, projectsStateList);
+            }
+
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]

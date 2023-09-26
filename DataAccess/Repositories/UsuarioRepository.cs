@@ -3,6 +3,8 @@ using Integrador.Models;
 using TechOil.DataAccess.Repositories.Interfaces;
 using Integrador.DTOs;
 using Microsoft.EntityFrameworkCore;
+using TechOil.DTOs;
+using TechOil.Helper;
 
 namespace TechOil.DataAccess.Repositories
 {
@@ -23,6 +25,7 @@ namespace TechOil.DataAccess.Repositories
             Usuario.Dni = updateUsuario.Dni;
             Usuario.Activo = updateUsuario.Activo;
             Usuario.Contrasenia = updateUsuario.Contrasenia;
+            Usuario.Email = updateUsuario.Email;
 
             _context.Usuarios.Update(Usuario);
             await _context.SaveChangesAsync();
@@ -61,8 +64,12 @@ namespace TechOil.DataAccess.Repositories
                 return false;
             }
         }
+        public async Task<Usuario?> AuthenticateCredentials(AutenticacionDTO dto)
+        {
+            return await _context.Usuarios.SingleOrDefaultAsync
+                (x => x.Email == dto.Email && x.Contrasenia == ContraseniaEncryptHelper.EncryptPassword(dto.Contrasenia, dto.Email));
+        }
 
-        
 
     }
 }
