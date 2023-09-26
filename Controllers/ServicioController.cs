@@ -31,7 +31,7 @@ namespace TechOil.Controllers
         }
 
 
-        [HttpPost]
+        /*[HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -51,8 +51,30 @@ namespace TechOil.Controllers
             await _unitOfWork.ServicioRepository.Insert(servicioModel);
 
             return CreatedAtRoute("GetServicioById", new { id = servicioDto.IdServicio }, servicioDto);
-        }
+        }*/
 
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ServicioDTO>> PostServicio([FromBody] ServicioDTO servicioDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (servicioDto == null)
+            {
+                return BadRequest(servicioDto);
+            }
+
+            Servicio servicioModel = _mapper.Map<Servicio>(servicioDto);
+            await _unitOfWork.ServicioRepository.Insert(servicioModel);
+
+            // Devolver una respuesta HTTP 201 (Created) sin especificar una ruta
+            return StatusCode(StatusCodes.Status201Created, servicioDto);
+        }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

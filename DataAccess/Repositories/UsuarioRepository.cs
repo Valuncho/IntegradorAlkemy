@@ -25,6 +25,7 @@ namespace TechOil.DataAccess.Repositories
             Usuario.Contrasenia = updateUsuario.Contrasenia;
 
             _context.Usuarios.Update(Usuario);
+            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -34,9 +35,11 @@ namespace TechOil.DataAccess.Repositories
             if (usuario != null)
             {
                 _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
+                return true;
             }
 
-            return true;
+            return false;
         }
         public override async Task<bool> Insert(Usuario nuevoUsuario)
         {

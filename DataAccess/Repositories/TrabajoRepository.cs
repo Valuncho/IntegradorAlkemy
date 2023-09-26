@@ -23,6 +23,7 @@ namespace TechOil.DataAccess.Repositories
             trabajo.Costo = updateTrabajo.Costo;
 
             _context.Trabajos.Update(trabajo);
+            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -32,6 +33,7 @@ namespace TechOil.DataAccess.Repositories
             if (trabajo != null)
             {
                 _context.Trabajos.Remove(trabajo);
+                await _context.SaveChangesAsync();
             }
 
             return true;
@@ -41,7 +43,7 @@ namespace TechOil.DataAccess.Repositories
         {
             try
             {
-                var trabajoExistente = await _context.Trabajos.FirstOrDefaultAsync(x => x.Nombre == nuevoTrabajo.Nombre || x.Dni == nuevoTrabajo.Dni);
+                var trabajoExistente = await _context.Trabajos.FirstOrDefaultAsync(x => x.IdTrabajo == nuevoTrabajo.IdTrabajo);
 
                 if (trabajoExistente != null)
                 {

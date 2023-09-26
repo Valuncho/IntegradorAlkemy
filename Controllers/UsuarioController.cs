@@ -21,7 +21,27 @@ namespace TechOil.Controllers
             _mapper = mapper;
         }
 
-        
+        [HttpGet("{id}", Name = "GetUserById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<UsuarioDTO>> GetUser(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+
+            var usuario = await _unitOfWork.UsuarioRepository.GetById(u => u.IdUsuario == id);
+            if (usuario != null)
+            {
+                return Ok(_mapper.Map<UsuarioDTO>(usuario));
+            }
+
+            return NotFound();
+        }
+
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -32,7 +52,28 @@ namespace TechOil.Controllers
             return Ok(_mapper.Map<IEnumerable<UsuarioDTO>>(usuariosList));
         }
 
-        
+
+        /*[HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<UsuarioDTO>> PostUser([FromBody] UsuarioDTO usuarioDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (usuarioDto == null)
+            {
+                return BadRequest(usuarioDto);
+            }
+
+            Usuario usuarioModel = _mapper.Map<Usuario>(usuarioDto);
+            await _unitOfWork.UsuarioRepository.Insert(usuarioModel);
+
+            return CreatedAtRoute("GetUserById", new { id = usuarioDto.IdUsuario }, usuarioDto);
+        }*/
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,13 +90,15 @@ namespace TechOil.Controllers
                 return BadRequest(usuarioDto);
             }
 
-            Usuario userModel = _mapper.Map<Usuario>(usuarioDto);
-            await _unitOfWork.UsuarioRepository.Insert(userModel);
+            Usuario usuarioModel = _mapper.Map<Usuario>(usuarioDto);
+            await _unitOfWork.UsuarioRepository.Insert(usuarioModel);
 
-            return CreatedAtRoute("GetUserById", new { id = usuarioDto.IdUsuario }, usuarioDto);
+            // Construye manualmente la respuesta HTTP 201 (Created)
+            var locationUri = new Uri($"{Request.Scheme}://{Request.Host.ToUriComponent()}/api/usuarios/{usuarioModel.IdUsuario}");
+            return Created(locationUri, usuarioDto);
         }
 
-        
+
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

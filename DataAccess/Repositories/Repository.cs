@@ -10,10 +10,12 @@ namespace TechOil.DataAccess.Repositories
     public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly ApplicationDbContext _context;
+        internal DbSet<T> dbSet;
 
         public Repository(ApplicationDbContext context)
         {
             _context = context;
+            this.dbSet = _context.Set<T>();
         }
 
         public virtual async Task<List<T>> GetAll()
@@ -27,10 +29,27 @@ namespace TechOil.DataAccess.Repositories
             return true;
         }
 
+        public async Task<T> GetById(Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        {
+            IQueryable<T> query = dbSet;
+            if (!tracked)
+            {
+                query = query.AsNoTracking();
+            }
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return await query.FirstOrDefaultAsync();
+        }
+
         public virtual Task<bool> Update(T entity)
         {
             throw new NotImplementedException();
         }
+
 
         public virtual Task<bool> Delete(int id)
         {

@@ -22,6 +22,7 @@ namespace TechOil.DataAccess.Repositories
             Proyecto.Estado = updateProyecto.Estado;
             Proyecto.Activo = updateProyecto.Activo;
             _context.Proyecto.Update(Proyecto);
+            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -31,9 +32,31 @@ namespace TechOil.DataAccess.Repositories
             if (Proyecto != null)
             {
                 _context.Proyecto.Remove(Proyecto);
+                await _context.SaveChangesAsync();
             }
 
             return true;
+        }
+
+        public override async Task<bool> Insert(Proyecto nuevoProyecto)
+        {
+            try
+            {
+                var proyectoExistente = await _context.Proyecto.FirstOrDefaultAsync(x => x.Nombre == nuevoProyecto.Nombre);
+
+                if (proyectoExistente != null)
+                {
+                    return false;
+                }
+
+                _context.Proyecto.Add(nuevoProyecto);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

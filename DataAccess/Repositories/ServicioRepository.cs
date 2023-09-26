@@ -21,6 +21,7 @@ namespace TechOil.DataAccess.Repositories
             Servicio.ValorHora = updateServicio.ValorHora;
             Servicio.Activo = updateServicio.Activo;
             _context.Servicios.Update(Servicio);
+            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -30,9 +31,31 @@ namespace TechOil.DataAccess.Repositories
             if (Servicio != null)
             {
                 _context.Servicios.Remove(Servicio);
+                await _context.SaveChangesAsync();
             }
 
             return true;
+        }
+
+        public override async Task<bool> Insert(Servicio nuevoServicio)
+        {
+            try
+            {
+                var servicioExistente = await _context.Servicios.FirstOrDefaultAsync(x => x.IdServicio == nuevoServicio.IdServicio);
+
+                if (servicioExistente != null)
+                {
+                    return false;
+                }
+
+                _context.Servicios.Add(nuevoServicio);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

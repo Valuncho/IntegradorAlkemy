@@ -19,6 +19,25 @@ namespace TechOil.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("{id}", Name = "GetProjectId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ProyectoDTO>> GetProyecto(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+
+            var proyecto = await _unitOfWork.ProyectoRepository.GetById(p => p.IdProyecto == id);
+            if (proyecto != null)
+            {
+                return Ok(_mapper.Map<ProyectoDTO>(proyecto));
+            }
+
+            return NotFound();
+        }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -30,6 +49,28 @@ namespace TechOil.Controllers
             return Ok(_mapper.Map<IEnumerable<ProyectoDTO>>(proyectosList));
         }
 
+
+        /*[HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ProyectoDTO>> PostProyecto([FromBody] ProyectoDTO proyectoDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (proyectoDto == null)
+            {
+                return BadRequest(proyectoDto);
+            }
+
+            Proyecto proyectoModel = _mapper.Map<Proyecto>(proyectoDto);
+            await _unitOfWork.ProyectoRepository.Insert(proyectoModel);
+
+            return CreatedAtRoute("GetProyectoById", new { id = proyectoDto.IdProyecto }, proyectoDto);
+        }*/
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -50,7 +91,9 @@ namespace TechOil.Controllers
             Proyecto proyectoModel = _mapper.Map<Proyecto>(proyectoDto);
             await _unitOfWork.ProyectoRepository.Insert(proyectoModel);
 
-            return CreatedAtRoute("GetProyectoById", new { id = proyectoDto.IdProyecto }, proyectoDto);
+            // Construye manualmente la respuesta HTTP 201 (Created)
+            var locationUri = new Uri($"{Request.Scheme}://{Request.Host.ToUriComponent()}/api/proyectos/{proyectoModel.IdProyecto}");
+            return Created(locationUri, proyectoDto);
         }
 
 
