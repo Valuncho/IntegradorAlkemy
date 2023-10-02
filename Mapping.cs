@@ -9,6 +9,7 @@ namespace Integrador
         public Mapping()
         {
             // Mapeo de las clases a sus DTOs
+            // Hace conversiones
 
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
 

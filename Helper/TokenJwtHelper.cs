@@ -34,8 +34,6 @@ namespace TechOil.Helper
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
-
-
         }
     }
 }
