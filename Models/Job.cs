@@ -3,36 +3,36 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Integrador.Models
 {
-    [Table("trabajo")]
-    public class Trabajo
+    [Table("job")]
+    public class Job
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdTrabajo { get; set; }
+        public int JobId { get; set; }
 
         [Required]
         [Column(TypeName = "DATE")]
-        public DateTime Fecha { get; set; }
+        public DateTime Date { get; set; }
 
         [Required]
         [Column(TypeName = "INT")]
-        public int CantHoras { get; set; }
+        public int HoursWorked { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL")]
-        public double ValorHora { get; set; }
+        public double ValueTime { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL")]
-        public double Costo { get; set; }
+        public double Cost { get; set; }
 
         [Required]
         [Column(TypeName = "INT")]
-        public int IdProyecto { get; set; }
+        public int ProjectId { get; set; }
 
         [Required]
         [Column(TypeName = "INT")]
-        public int IdServicio { get; set; }
+        public int ServiceId { get; set; }
 
     }
 }

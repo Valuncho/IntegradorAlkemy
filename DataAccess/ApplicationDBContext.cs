@@ -11,16 +11,16 @@ namespace Integrador.DataAccess
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
 
-        public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Trabajo> Trabajos { get; set; }
-        public DbSet<Servicio> Servicios { get; set; }
-        public DbSet<Proyecto> Proyecto { get; set;}
+        public DbSet<User> Users { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<Project> Project { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var seeders = new List<IEntitySeeder>
             {
-                new UsuarioSeeder(),
+                new UserSeeder(),
             };
 
 

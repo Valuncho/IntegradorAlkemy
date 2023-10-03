@@ -5,13 +5,13 @@ namespace TechOil.Helper
 {
     public static class ContraseniaEncryptHelper
     {
-        public static string EncryptPassword(string password, string mail)
+        public static string EncryptPassword(string password, string email)
         {
-            var salt = CreateSalt(mail);
+            var salt = CreateSalt(email);
             string saltAndPwd = String.Concat(password, salt);
             var sha256 = SHA256.Create();
             var encoding = new ASCIIEncoding();
-            var stream = Array.Empty<byte>();
+            byte[] stream = Array.Empty<byte>();
             var sb = new StringBuilder();
             stream = sha256.ComputeHash(encoding.GetBytes(saltAndPwd));
             for (int i = 0; i < stream.Length; i++)
@@ -20,10 +20,10 @@ namespace TechOil.Helper
             }
             return sb.ToString();
         }
-
-        private static string CreateSalt(string mail)
+        // MODIFIQUE EL PARAMETRO EMAIL
+        private static string CreateSalt(string Email)
         {
-            var salt = mail;
+            var salt = Email;
             byte[] saltBytes;
             string saltStr;
             saltBytes = ASCIIEncoding.ASCII.GetBytes(salt);

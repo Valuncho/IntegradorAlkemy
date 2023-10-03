@@ -5,36 +5,42 @@ using System.Text;
 
 namespace Integrador.Models
 {
-    [Table("usuario")]
-    public class Usuario
+    [Table("user")]
+    public class User
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdUsuario { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string Nombre { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string Email { get; set;}
+        public string Email { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(9)")]
         public int Dni { get; set; }
-        
+
         [Required]
         [Column(TypeName = "INT")]
-        public int Tipo { get; set; }
+        public Roles UserType { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string Contrasenia { get; set; }
+        public string Password { get; set; }
 
         [Required]
         [Column(TypeName = "BIT")]
-        public bool Activo { get; set; }
+        public bool Active { get; set; }
+
+        public enum Roles
+        {
+            Administrator = 1,
+            Consultant
+        }
     }
-    public enum TipoUsuario { Admin = 1, Usuario = 2 }
+    
 }

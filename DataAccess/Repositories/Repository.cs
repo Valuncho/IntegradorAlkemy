@@ -18,9 +18,16 @@ namespace TechOil.DataAccess.Repositories
             this.dbSet = _context.Set<T>();
         }
 
-        public virtual async Task<List<T>> GetAll()
+        public virtual async Task<List<T>> GetAll(Expression<Func<T, bool>>? filter = null)
         {
-            return await _context.Set<T>().ToListAsync();
+            //return await _context.Set<T>().ToListAsync();
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return await query.ToListAsync();
         }
 
         public virtual async Task<bool> Insert(T entity)
