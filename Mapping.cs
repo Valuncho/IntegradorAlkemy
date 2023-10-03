@@ -11,13 +11,13 @@ namespace Integrador
             // Mapeo de las clases a sus DTOs
             // Hace conversiones
 
-            CreateMap<Usuario, UsuarioDTO>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
 
-            CreateMap<Servicio, ServicioDTO>().ReverseMap();
+            CreateMap<Models.Service, ServiceDTO>().ReverseMap();
 
-            CreateMap<Proyecto, ProyectoDTO>().ReverseMap();
+            CreateMap<Project, ProjectDTO>().ReverseMap();
 
-            CreateMap<Trabajo, TrabajoDTO>().ReverseMap();
+            CreateMap<Job, JobDTO>().ReverseMap();
         }
     }
 }

@@ -6,18 +6,18 @@ namespace Integrador.Services
     public class UnitOfWorkService : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        public UsuarioRepository UsuarioRepository { get; private set; }
-        public TrabajoRepository TrabajoRepository { get; private set; }
-        public ServicioRepository ServicioRepository { get; private set; }
-        public ProyectoRepository ProyectoRepository { get; private set; }
+        public UserRepository UserRepository { get; private set; }
+        public JobRepository JobRepository { get; private set; }
+        public ServiceRepository ServiceRepository { get; private set; }
+        public ProjectRepository ProjectRepository { get; private set; }
 
         public UnitOfWorkService(ApplicationDbContext context)
         {
             _context = context;
-            UsuarioRepository = new UsuarioRepository(_context);
-            TrabajoRepository = new TrabajoRepository(_context);
-            ServicioRepository = new ServicioRepository(_context);
-            ProyectoRepository = new ProyectoRepository(_context);
+            UserRepository = new UserRepository(_context);
+            JobRepository = new JobRepository(_context);
+            ServiceRepository = new ServiceRepository(_context);
+            ProjectRepository = new ProjectRepository(_context);
 
         }
 

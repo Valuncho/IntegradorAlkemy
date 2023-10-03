@@ -2,7 +2,7 @@
 
 namespace TechOil.DataAccess.Repositories.Interfaces
 {
-    public interface IProyectoRepository : IRepository<Proyecto>
+    public interface IProjectRepository : IRepository<Project>
     {
     }
 }

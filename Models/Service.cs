@@ -3,34 +3,33 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Integrador.Models
 {
-    [Table("servicio")]
-    public class Servicio
+    [Table("service")]
+    public class Service
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdServicio { get; set; }
+        public int ServiceId { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string Descripcion { get; set; }
+        public string Description { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL")]
-        public double ValorHora { get; set; }
+        public double ValueTime { get; set; }
 
         [Required]
         [Column(TypeName = "BIT")]
-        public bool Activo { get; set; }
+        public bool Active { get; set; }
 
-        public void ActivarServicio()
+        public void ActivateService()
         {
-            Activo = true;
+            Active = true;
         }
 
-        public void DesactivarServicio()
+        public void DeactivateService()
         {
-            Activo = false;
+            Active = false;
         }
-   
     }
-}
+}   

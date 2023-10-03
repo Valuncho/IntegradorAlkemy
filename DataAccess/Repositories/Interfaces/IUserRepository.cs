@@ -2,7 +2,7 @@
 
 namespace TechOil.DataAccess.Repositories.Interfaces
 {
-    public interface IServicioRepository : IRepository<Servicio>
+    public interface IUserRepository : IRepository<User>
     {
     }
 }

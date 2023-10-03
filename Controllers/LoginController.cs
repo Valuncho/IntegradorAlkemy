@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TechOil.DTOs;
 using TechOil.Helper;
+using TechOil.Infrastructure;
 
 namespace TechOil.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
 
     public class LoginController : ControllerBase
     {
@@ -22,10 +22,12 @@ namespace TechOil.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [ProducesResponseType(typeof(ApiSuccessResponse<LoginDTO>), 200)]
+        [ProducesResponseType(typeof(ApiErrorResponse), 401)]
         public async Task<IActionResult> Login(AutenticacionDTO dto)
         {
-            var userCredentials = await _unitOfWork.UsuarioRepository.AuthenticateCredentials(dto);
+            var userCredentials = await _unitOfWork.UserRepository.AuthenticateCredentials(dto);
+
             if (userCredentials is null) return Unauthorized();
 
             var token = _tokenJwtHelper.GenerateToken(userCredentials);
@@ -33,12 +35,13 @@ namespace TechOil.Controllers
             var user = new LoginDTO()
             {
                 Email = userCredentials.Email,
-                Nombre = userCredentials.Nombre,
+                Name = userCredentials.Name,
+                UserType = userCredentials.UserType,
                 Dni = userCredentials.Dni,
                 Token = token
             };
 
-            return Ok(user);
+            return ResponseFactory.CreateSuccessResponse(200, user);
 
         }
     }

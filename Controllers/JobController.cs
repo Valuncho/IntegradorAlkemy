@@ -8,12 +8,12 @@ namespace TechOil.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ServicioController : ControllerBase
+    public class JobController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ServicioController(IMapper mapper, IUnitOfWork unitOfWork)
+        public JobController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -23,11 +23,11 @@ namespace TechOil.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ServicioDTO>>> GetAllServicios()
+        public async Task<ActionResult<IEnumerable<JobDTO>>> GetAllTrabajos()
         {
-            IEnumerable<Servicio> serviciosList = await _unitOfWork.ServicioRepository.GetAll();
+            IEnumerable<Job> trabajosList = await _unitOfWork.JobRepository.GetAll();
 
-            return Ok(_mapper.Map<IEnumerable<ServicioDTO>>(serviciosList));
+            return Ok(_mapper.Map<IEnumerable<JobDTO>>(trabajosList));
         }
 
 
@@ -35,59 +35,59 @@ namespace TechOil.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ServicioDTO>> PostServicio([FromBody] ServicioDTO servicioDto)
+        public async Task<ActionResult<TrabajoDTO>> PostTrabajo([FromBody] TrabajoDTO trabajoDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (servicioDto == null)
+            if (trabajoDto == null)
             {
-                return BadRequest(servicioDto);
+                return BadRequest(trabajoDto);
             }
 
-            Servicio servicioModel = _mapper.Map<Servicio>(servicioDto);
-            await _unitOfWork.ServicioRepository.Insert(servicioModel);
+            Trabajo trabajoModel = _mapper.Map<Trabajo>(trabajoDto);
+            await _unitOfWork.TrabajoRepository.Insert(trabajoModel);
 
-            return CreatedAtRoute("GetServicioById", new { id = servicioDto.IdServicio }, servicioDto);
+            return CreatedAtRoute("GetTrabajoById", new { id = trabajoDto.IdTrabajo }, trabajoDto);
         }*/
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ServicioDTO>> PostServicio([FromBody] ServicioDTO servicioDto)
+        public async Task<ActionResult<JobDTO>> PostTrabajo([FromBody] JobDTO trabajoDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (servicioDto == null)
+            if (trabajoDto == null)
             {
-                return BadRequest(servicioDto);
+                return BadRequest(trabajoDto);
             }
 
-            Servicio servicioModel = _mapper.Map<Servicio>(servicioDto);
-            await _unitOfWork.ServicioRepository.Insert(servicioModel);
+            Job trabajoModel = _mapper.Map<Job>(trabajoDto);
+            await _unitOfWork.JobRepository.Insert(trabajoModel);
 
             // Devolver una respuesta HTTP 201 (Created) sin especificar una ruta
-            return StatusCode(StatusCodes.Status201Created, servicioDto);
+            return StatusCode(StatusCodes.Status201Created, trabajoDto);
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutServicio(int id, [FromBody] ServicioDTO servicioDto)
+        public async Task<IActionResult> PutJob(int id, [FromBody] JobDTO jobDto)
         {
-            if (servicioDto == null || id != servicioDto.IdServicio)
+            if (jobDto == null || id != jobDto.JobId)
             {
                 return BadRequest();
             }
 
-            Servicio servicioModel = _mapper.Map<Servicio>(servicioDto);
-            await _unitOfWork.ServicioRepository.Update(servicioModel);
+            Job trabajoModel = _mapper.Map<Job>(jobDto);
+            await _unitOfWork.JobRepository.Update(trabajoModel);
 
             return NoContent();
         }
@@ -97,17 +97,18 @@ namespace TechOil.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteServicio(int IdServicio)
+        public async Task<IActionResult> DeleteJob(int JobId)
         {
-            if (IdServicio == 0)
+            if (JobId == 0)
             {
                 return BadRequest();
             }
             else
             {
-                await _unitOfWork.ServicioRepository.Delete(IdServicio);
+                await _unitOfWork.JobRepository.Delete(JobId);
                 return NoContent();
             }
         }
     }
 }
+
